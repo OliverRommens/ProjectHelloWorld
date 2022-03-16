@@ -1,5 +1,5 @@
 import java.io.*;
-import java.net.Socket;
+import java.net.*;
 
 public class Client {
     private static DataOutputStream dataOutputStream = null;
@@ -10,8 +10,8 @@ public class Client {
             dataInputStream = new DataInputStream(socket.getInputStream());
             dataOutputStream = new DataOutputStream(socket.getOutputStream());
 
-            sendFile("C:\\Users\\jeoff\\IdeaProjects\\ProjectHelloWorld2\\src\\main\\java\\text");
-            sendFile("C:\\Users\\jeoff\\IdeaProjects\\ProjectHelloWorld2\\src\\main\\java\\text2");
+            sendFile("C:\\Users\\olive\\OneDrive\\Documenten\\6-semester\\Distributed\\Lab1\\src\\main\\java\\text");
+            sendFile("C:\\Users\\olive\\OneDrive\\Documenten\\6-semester\\Distributed\\Lab1\\src\\main\\java\\text2");
 
             dataInputStream.close();
             dataInputStream.close();
