@@ -1,50 +1,42 @@
-import java.io.*;
-import java.net.*;
-
-/* Step1: Import java packages and create class file server.
-Step2: Create a new server socket and bind it to the port.
-Step3: Accept the client connection
-Step4: Get the file name and stored into the BufferedReader.
-Step5: Create a new object class file and realine.
-Step6: If file is exists then FileReader read the content until EOF is reached.
-Step7: Stop the program.
-*/
-
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.FileOutputStream;
+import java.net.ServerSocket;
+import java.net.Socket;
 
 public class Server {
+    private static DataOutputStream dataOutputStream = null;
+    private static DataInputStream dataInputStream = null;
 
     public static void main(String[] args) {
-        //
+        try(ServerSocket serverSocket = new ServerSocket(5000)){
+            System.out.println("listening to port:5000");
+            Socket clientSocket = serverSocket.accept();
+            System.out.println(clientSocket+" connected.");
+            dataInputStream = new DataInputStream(clientSocket.getInputStream());
+            dataOutputStream = new DataOutputStream(clientSocket.getOutputStream());
 
+            receiveFile("text");
+            receiveFile("text2");
 
-
-    }
-}
-
-  /*
-        if (args.length < 1) return;
-
-        int port = Integer.parseInt(args[0]);
-
-        try (ServerSocket serverSocket = new ServerSocket(port)) {
-
-            System.out.println("Server is listening on port " + port);
-
-            while (true) {
-                Socket socket = serverSocket.accept();
-
-                System.out.println("New client connected");
-
-                OutputStream output = socket.getOutputStream();
-                PrintWriter writer = new PrintWriter(output, true);
-
-                writer.println(new Date().toString());
-            }
-
-        } catch (IOException ex) {
-            System.out.println("Server exception: " + ex.getMessage());
-            ex.printStackTrace();
+            dataInputStream.close();
+            dataOutputStream.close();
+            clientSocket.close();
+        } catch (Exception e){
+            e.printStackTrace();
         }
     }
 
-         */
+    private static void receiveFile(String fileName) throws Exception{
+        int bytes = 0;
+        FileOutputStream fileOutputStream = new FileOutputStream(fileName);
+
+        long size = dataInputStream.readLong();     // read file size
+        byte[] buffer = new byte[4*1024];
+        while (size > 0 && (bytes = dataInputStream.read(buffer, 0, (int)Math.min(buffer.length, size))) != -1) {
+            fileOutputStream.write(buffer,0,bytes);
+            size -= bytes;      // read upto file size
+        }
+        fileOutputStream.close();
+    }
+}
