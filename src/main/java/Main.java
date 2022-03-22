@@ -1,6 +1,6 @@
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Hello, jeoffrey!");
-        System.out.println("Hello Oliver");
+        Client client = new Client();
+        Client client1 = new Client();
     }
 }

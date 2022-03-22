@@ -9,10 +9,7 @@ public class Client {
         try(Socket socket = new Socket("localhost",5000)) {
             dataInputStream = new DataInputStream(socket.getInputStream());
             dataOutputStream = new DataOutputStream(socket.getOutputStream());
-
-            sendFile("C:\\Users\\olive\\OneDrive\\Documenten\\6-semester\\Distributed\\Lab1\\src\\main\\java\\text");
-            sendFile("C:\\Users\\olive\\OneDrive\\Documenten\\6-semester\\Distributed\\Lab1\\src\\main\\java\\text2");
-
+            sendFile("C:\\Users\\jeoff\\IdeaProjects\\ProjectHelloWorld2\\src\\main\\java\\DistrLab1TCP");
             dataInputStream.close();
             dataInputStream.close();
         }catch (Exception e){
@@ -24,10 +21,7 @@ public class Client {
         int bytes = 0;
         File file = new File(path);
         FileInputStream fileInputStream = new FileInputStream(file);
-
-        // send file size
         dataOutputStream.writeLong(file.length());
-        // break file into chunks
         byte[] buffer = new byte[4*1024];
         while ((bytes=fileInputStream.read(buffer))!=-1){
             dataOutputStream.write(buffer,0,bytes);

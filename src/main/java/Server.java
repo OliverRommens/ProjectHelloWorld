@@ -8,17 +8,14 @@ public class Server {
     private static DataOutputStream dataOutputStream = null;
     private static DataInputStream dataInputStream = null;
 
-    public static void main(String[] args) {
+    public static void main(String... args) {
         try(ServerSocket serverSocket = new ServerSocket(5000)){
             System.out.println("listening to port:5000");
             Socket clientSocket = serverSocket.accept();
             System.out.println(clientSocket+" connected.");
             dataInputStream = new DataInputStream(clientSocket.getInputStream());
             dataOutputStream = new DataOutputStream(clientSocket.getOutputStream());
-
-            receiveFile("text");
-            receiveFile("text2");
-
+            receiveFile("textFile1.txt");
             dataInputStream.close();
             dataOutputStream.close();
             clientSocket.close();
